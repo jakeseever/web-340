@@ -9,7 +9,7 @@
 
 var header = require('../../seever-header.js');
 // pass in the firstName, lastName, and assignment parameters required for the header and output.
-console.log(header.display("Jake", "Seever", "Exercise 1.3"));
+console.log(header.display("Jake", "Seever", "Exercise 2.2"));
 console.log('\n');
 
 //Start
