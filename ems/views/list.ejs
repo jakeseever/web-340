@@ -1,0 +1,41 @@
+<!--
+============================================
+; Title:  list.ejs
+; Author: Jake Seever
+; Date:   22 March 2019
+; Description: The employee list - ems project
+;===========================================
+-->
+
+<br /> <br />
+<div class="container" id="employeeList">
+
+  <h2>Employee List</h2>
+  <br />
+
+  <table class="table col-md-12 table-striped" id="employeeTable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Department</th>
+        <th scope="col">Position</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+        <%if(names.length > 0) { %>
+          <% for (var k = 0; k < names.length; k++) {%>
+            <a href="google.com">
+            <tr>
+              <td><%= names[k].firstName %></td>
+              <td><%= names[k].lastName %></td>
+              <td><%= names[k].department %></td>
+              <td><%= names[k].position %></td>
+            </tr>
+            </a>
+          <% } %>
+       <% } %>
+    </tbody>
+  </table>
+
+</div>

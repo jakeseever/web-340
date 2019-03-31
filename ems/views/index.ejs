@@ -1,0 +1,40 @@
+<!--
+============================================
+; Title:  header.ejs
+; Author: Jake Seever
+; Date:   22 March 2019
+; Description: The header section of a page view - ems project
+;===========================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+  <% include header %>
+
+  <body>
+    <% include navbar %>
+
+    <!-- Main jumbotron for the landing page -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3 text-center">Welcome to the JS Designs EMS</h1>
+        <p class="text-center">
+          From this page you can browse employees, access employee information,
+          and add new employees to the system.
+        </p>
+      </div>
+    </div>
+
+    <% include list %>
+
+    <% include new %>
+
+    <% include footer %>
+
+    <% include scripts %>
+
+  </body>
+</html>
+
+
+
