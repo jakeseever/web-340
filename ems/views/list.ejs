@@ -23,16 +23,14 @@
       </tr>
     </thead>
     <tbody id="tbody">
-        <%if(names.length > 0) { %>
-          <% for (var k = 0; k < names.length; k++) {%>
-            <a href="google.com">
-            <tr>
-              <td><%= names[k].firstName %></td>
-              <td><%= names[k].lastName %></td>
-              <td><%= names[k].department %></td>
-              <td><%= names[k].position %></td>
-            </tr>
-            </a>
+        <%if(employees.length > 0) { %>
+          <% for (var k = 0; k < employees.length; k++) {%>
+              <tr>
+                <td><%= employees[k].firstName %></td>
+                <td><%= employees[k].lastName %></td>
+                <td><%= employees[k].department %></td>
+                <td><%= employees[k].position %></td>
+              </tr>
           <% } %>
        <% } %>
     </tbody>

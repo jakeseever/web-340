@@ -78,7 +78,7 @@ var employees = [
 app.get("/", function(request, response) {  // Create a get request and return a response
   response.render("index", { // Output message to the index.ejs document
     title: "EMS Home Page",
-    names: employees
+    employees: employees
   });
 });
 
