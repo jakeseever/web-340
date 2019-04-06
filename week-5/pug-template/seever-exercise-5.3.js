@@ -36,6 +36,6 @@ app.get("/", function(request, response) {  // Create a get request and return a
  */
 http.createServer(app).listen(8080, function(){
   console.log("Application stated on port 8080");
-})
+});
 
 

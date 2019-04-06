@@ -1,7 +1,7 @@
 /*
 ============================================
 ; Title:  seever-assignment-6.3.js
-; Author: Professor Krasso
+; Author: Jake Seever
 ; Date:   30 March 2019
 ; Description: Demonstrates how to setup a MongoDB
 ;              connection.

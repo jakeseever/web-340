@@ -1,0 +1,13 @@
+{
+  "name": "tdd-example",
+  "author": "Jake Seever",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
