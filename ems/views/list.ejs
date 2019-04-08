@@ -13,13 +13,11 @@
   <h2>Employee List</h2>
   <br />
 
-  <table class="table col-md-12 table-striped" id="employeeTable">
+  <table class="table col-md-11 table-striped" id="employeeTable">
     <thead class="thead-dark">
       <tr>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
-        <th scope="col">Department</th>
-        <th scope="col">Position</th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -28,8 +26,6 @@
               <tr>
                 <td><%= employees[k].firstName %></td>
                 <td><%= employees[k].lastName %></td>
-                <td><%= employees[k].department %></td>
-                <td><%= employees[k].position %></td>
               </tr>
           <% } %>
        <% } %>
