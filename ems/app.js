@@ -21,6 +21,8 @@ const path = require("path");
 const logger = require("morgan");
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+var cookieParser = require("cookie-parser");
+const csrf = require('csurf');
 const mongoose = require('mongoose');
 const employee = require('./models/employee');
 
@@ -28,7 +30,7 @@ const employee = require('./models/employee');
  * Establishes a database connection to MongoDB (mLab).
  * Make sure you are using the credentials of the "user" you created and not your personal login information.
  */
-const mongoDB = 'mongodb+srv://testUser:<Brewers19>@ems-ap5nb.mongodb.net/test?retryWrites=true';
+const mongoDB = 'mongodb+srv://testUser:Brewers19@ems-ap5nb.mongodb.net/test?retryWrites=true';
 mongoose.connect(mongoDB, {
   useMongoClient:true
 });
@@ -40,12 +42,47 @@ db.once('open', function() {
   console.log('Application connected to MongoDB instance');
 });
 
+/**
+ * Sets up CSRF protection.
+ */
+let csrfProtection = csrf({ cookie: true });
 
-var app = express(); // Set the application to a variable, use express
+ // Set the application to a variable, use express
+var app = express();
+
+// Use the morgan logger
+app.use(logger("short"));
+
+// use the body parser
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+
+// use the cookie parser
+app.use(cookieParser());
+
+// Use the helmet filter
+app.use(helmet.xssFilter());
+
+// Use CSRF protection
+app.use(csrfProtection);
+
+/**
+ * Intercepts all incoming requests and adds a CSRF token to the response for security.
+ */
+app.use(function(req, res, next) {
+  var token = req.csrfToken();
+  res.cookie('XSRF-TOKEN', token);
+  res.locals.csrfToken = token;
+  next();
+});
 
 app.set("views", path.resolve(__dirname, "views")); // Tell Express the views are in the 'views' directory.
 app.set("view engine", "ejs"); // Tell Express to use the view engine.
-app.use(logger("short"));
+app.set('port', process.env.PORT || 8080); // Set the server port to 8080
+
 
 
 
