@@ -15,16 +15,16 @@ console.log('\n');
 // Start
 
 // Require Statements
-const express = require("express");
-const http = require("http");
-const path = require("path");
-const logger = require("morgan");
-const helmet = require('helmet');
-const bodyParser = require('body-parser');
+var express = require("express");
+var http = require("http");
+var path = require("path");
+var logger = require("morgan");
+var helmet = require('helmet');
+var bodyParser = require('body-parser');
 var cookieParser = require("cookie-parser");
-const csrf = require('csurf');
-const mongoose = require('mongoose');
-const employee = require('./models/employee');
+var csrf = require('csurf');
+var mongoose = require('mongoose');
+var Employee = require('./models/employee');
 
 /**
  * Establishes a database connection to MongoDB (mLab).
@@ -45,7 +45,7 @@ db.once('open', function() {
 /**
  * Sets up CSRF protection.
  */
-let csrfProtection = csrf({ cookie: true });
+var csrfProtection = csrf({ cookie: true });
 
  // Set the application to a variable, use express
 var app = express();
@@ -83,68 +83,159 @@ app.set("views", path.resolve(__dirname, "views")); // Tell Express the views ar
 app.set("view engine", "ejs"); // Tell Express to use the view engine.
 app.set('port', process.env.PORT || 8080); // Set the server port to 8080
 
-
-
-
 // Test Employees until we start using our MongoDB database for information
- var employees = [
+ /*var employees = [
 
   {
     firstName: "Jake",
-    lastName: "Seever", /*
-    email: "jwseever@domain.com",
-    phone: "715-218-7046",
-    location: "Kronenwetter, WI",
-    department: "Information Technology",
-    position: "Web Developer",
-    salary: "$1,000,000" */
+    lastName: "Seever"
   },
 
   {
     firstName: "Michael",
-    lastName: "Ausloos" /*
-    /*email: "mausloos@jsdesigns.com",
-    phone: "715-222-7249",
-    location: "Kronenwetter, WI",
-    department: "Information Technology",
-    position: "Software Developer",
-    salary: "$80,000" */
+    lastName: "Ausloos"
   },
 
   {
     firstName: "Evelyn",
-    lastName: "Kizewski", /*
-    email: "ekizewski@jsdesigns.com",
-    phone: "715-997-3029",
-    location: "Wausau, WI",
-    department: "Information Technology",
-    position: "Network Specialist",
-    salary: "$100,000" */
+    lastName: "Kizewski"
   },
 
   {
     firstName: "Matt",
-    lastName: "Carlson" /*
-    email: "mcarlson@jsdesigns.com",
-    phone: "715-451-7777",
-    location: "Wausau, WI",
-    department: "Information Technology",
-    position: "Intern Developer",
-    salary: "$50,000" */
+    lastName: "Carlson"
   }
-];
+]; */
 
 
-app.get("/", function(request, response) {  // Create a get request and return a response
+
+/**
+ * Description: Redirects users to the 'index' page.
+ * Type: HttpGet
+ * Request: n/a
+ * Response: index.ejs, Fruit[]
+ * URL: localhost:8080
+ */
+app.get('/', function(req, res) {
+  Employee.find({}, function(err, employees) {
+    if (err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(employees);
+      res.render('index', {
+        title: 'EMS | Home Page',
+        employees: employees
+      })
+    }
+  });
+});
+
+/*
+ app.get("/", function(request, response) {  // Create a get request and return a response
   response.render("index", { // Output message to the index.ejs document
     title: "EMS Home Page",
+    employees: Employees
+  });
+}); */
+
+/**
+ * Description: Redirects users to the 'new employee' page.
+ * Type: HttpGet
+ * Request: n/a
+ * Response: new.ejs
+ * URL: localhost:8080/new
+ */
+app.get('/new', function(req, res) {
+  res.render('new', {
+    title: 'EMS | New Page'
+  });
+});
+
+/**
+ * Description: Redirects users to the 'employee list' page.
+ * Type: HttpGet
+ * Request: n/a
+ * Response: list.ejs
+ * URL: localhost:8080/new
+ */
+app.get('/list', function(req, res) {
+  res.render('list', {
+    title: 'EMS | Employee List',
     employees: employees
   });
+});
+
+
+/**
+ * Description: Processes a form submission.
+ * Type: HttpPost
+ * Request: textName
+ * Response: index.ejs
+ * URL: localhost:8080/process
+ */
+app.post('/process', function(req, res) {
+  if (!req.body.firstName || !req.body.lastName) {
+    res.status(400).send('Entries must have a name');
+    return;
+  }
+
+  // get the request's form data
+const firstName = req.body.firstName;
+const lastName = req.body.lastName;
+console.log(firstName + lastName);
+
+
+// create a employee model
+var employee = new employee({
+  firstName: firstName,
+  lastName: lastName
+});
+
+// save the employee
+employee.save(function(err) {
+  if (err) {
+    console.log(err);
+    throw err;
+  } else {
+    console.log(firstName + " " + lastName + ' saved successfully!');
+    res.redirect('/');
+    }
+  });
+});
+
+/**
+ * Description: Redirects users to the 'home' page'
+ * Type: HttpGet
+ * Request: queryName
+ * Response: view.ejs, Employee[] | index.ejs
+ * URL: localhost:8080/view/:queryName
+ */
+app.get('/view/:queryName', function(req, res) {
+  const queryName = req.params['queryName'];
+
+  Employee.find({'name': queryName}, function(err, employees) {
+    if (err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(employees);
+
+      if (employees.length > 0) {
+        res.render('view', {
+          title: 'EMS | View',
+          employee: employees
+        })
+      } else {
+        res.redirect('/');
+      }
+    }
+  })
 });
 
 /**
  * Creates a new server to listen on the 8080 port.
  */
-http.createServer(app).listen(8080, function(){
-  console.log("Application stated on port 8080");
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Application stated on port " + app.get('port'));
 });

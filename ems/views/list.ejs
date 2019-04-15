@@ -7,12 +7,21 @@
 ;===========================================
 -->
 
+<!DOCTYPE html>
+<html lang="en">
+  <% include header %>
+
+  <body>
+    <% include navbar %>
+
+
 <br /> <br />
 <div class="container" id="employeeList">
 
   <h2>Employee List</h2>
   <br />
-
+<!--
+  <% if(employees.length > 0) { %>
   <table class="table col-md-11 table-striped" id="employeeTable">
     <thead class="thead-dark">
       <tr>
@@ -21,15 +30,16 @@
       </tr>
     </thead>
     <tbody id="tbody">
-        <%if(employees.length > 0) { %>
-          <% for (var k = 0; k < employees.length; k++) {%>
-              <tr>
-                <td><%= employees[k].firstName %></td>
-                <td><%= employees[k].lastName %></td>
-              </tr>
-          <% } %>
-       <% } %>
+      <% employees.forEach(function (entry) { %>
+        <tr>
+          <td><%= entry.firstName %></td>
+          <td><%= entry.lastName %></td>
+        </tr>
     </tbody>
+    <% }) %>
   </table>
+  <% } %> else { %>
+    <h3>There are not any employees in the list currently </h3><a href="/new" class="btn btn-secondary bg-info border-light"> Add Employee</a>
+  <% } %> -->
 
 </div>
