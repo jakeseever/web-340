@@ -105,8 +105,8 @@ app.set('port', process.env.PORT || 8080); // Set the server port to 8080
     firstName: "Matt",
     lastName: "Carlson"
   }
-]; */
-
+];
+*/
 
 
 /**
@@ -160,10 +160,12 @@ app.get('/new', function(req, res) {
  * URL: localhost:8080/new
  */
 app.get('/list', function(req, res) {
-  res.render('list', {
-    title: 'EMS | Employee List',
-    employees: employees
-  });
+  Employee.find({}, function(error, employees){
+    res.render('list', {
+      title: 'EMS | Employee List',
+      employees: employees
+    });
+  })
 });
 
 
@@ -175,19 +177,23 @@ app.get('/list', function(req, res) {
  * URL: localhost:8080/process
  */
 app.post('/process', function(req, res) {
-  if (!req.body.firstName || !req.body.lastName) {
+  console.log(req.body.txtFirstName);
+  console.log("test");
+
+   // get the request's form data
+const firstName = req.body.txtFirstName;
+const lastName = req.body.txtLastName;
+
+  if (!req.body.txtFirstName || !req.body.txtLastName) {
     res.status(400).send('Entries must have a name');
     return;
   }
 
-  // get the request's form data
-const firstName = req.body.firstName;
-const lastName = req.body.lastName;
 console.log(firstName + lastName);
 
 
 // create a employee model
-var employee = new employee({
+var employee = new Employee({
   firstName: firstName,
   lastName: lastName
 });
@@ -199,8 +205,8 @@ employee.save(function(err) {
     throw err;
   } else {
     console.log(firstName + " " + lastName + ' saved successfully!');
-    res.redirect('/');
     }
+    res.redirect('/');
   });
 });
 
@@ -211,7 +217,7 @@ employee.save(function(err) {
  * Response: view.ejs, Employee[] | index.ejs
  * URL: localhost:8080/view/:queryName
  */
-app.get('/view/:queryName', function(req, res) {
+/*app.get('/view/:queryName', function(req, res) {
   const queryName = req.params['queryName'];
 
   Employee.find({'name': queryName}, function(err, employees) {
@@ -231,7 +237,7 @@ app.get('/view/:queryName', function(req, res) {
       }
     }
   })
-});
+}); */
 
 /**
  * Creates a new server to listen on the 8080 port.
