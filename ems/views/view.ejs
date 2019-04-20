@@ -7,12 +7,61 @@
 ;===========================================
 -->
 
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
-  <ul class="list-group" id="viewGroup">
+  <% include header %>
 
-  </ul>
+  <body>
+    <% include navbar %>
 
+    <div class="container col-lg-7">
+      <br /> <br />
 
+      <h2>Employee Details</h2>
+      <br />
 
-</div>
+      <div>
+
+        <div class="form-group">
+
+          <label for="txtFirstName">First Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="txtFirstName"
+            readonly
+            value="<%= employees[0].firstName %>"
+            name="txtFirstName"/>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="txtLastName">Last Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="txtLastName"
+            readonly
+            value="<%= employees[0].lastName %>"
+            name="txtLastName"/>
+
+        </div>
+
+      </div>
+
+      <br /><br />
+
+      <a href="/" class="btn btn-secondary">Return</a>
+
+    </div>
+
+    <% include scripts %>
+
+    <% include footer %>
+
+  </body>
+
+</html>
+

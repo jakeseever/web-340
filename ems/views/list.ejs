@@ -16,30 +16,46 @@
 
 
 <br /> <br />
-<div class="container" id="employeeList">
+
+<div class="container col-lg-9" id="employeeList">
 
   <h2>Employee List</h2>
   <br />
 
   <% if(employees.length > 0) { %>
-  <table class="table col-md-11 table-striped" id="employeeTable">
+
+  <table class="col-md-11 table table-striped" id="employeeTable">
+
     <thead class="thead-dark">
       <tr>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
+        <th scope="col">View</th>
       </tr>
     </thead>
+
     <tbody id="tbody">
+
       <% employees.forEach(function (entry) { %>
-        <tr>
-          <td><%= entry.firstName %></td>
-          <td><%= entry.lastName %></td>
+        <a>
+
+          <td><%= entry.firstName%></td>
+          <td><%= entry.lastName%></td>
+          <td><a href="/view/<%= entry.firstName%>">View</a></td>
+        </a>
         </tr>
+
     </tbody>
     <% }) %>
+
   </table>
+
   <% } else { %>
-    <h3>There are not any employees in the list currently </h3><a href="/new" class="btn btn-secondary"> Add Employee</a> <br />
+
+    <h3>There are not any employees in the list currently </h3>
+    <a href="/new" class="btn btn-secondary"> Add Employee</a>
+    <br />
+
   <% } %>
 
   <br />

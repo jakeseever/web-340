@@ -83,31 +83,6 @@ app.set("views", path.resolve(__dirname, "views")); // Tell Express the views ar
 app.set("view engine", "ejs"); // Tell Express to use the view engine.
 app.set('port', process.env.PORT || 8080); // Set the server port to 8080
 
-// Test Employees until we start using our MongoDB database for information
- /*var employees = [
-
-  {
-    firstName: "Jake",
-    lastName: "Seever"
-  },
-
-  {
-    firstName: "Michael",
-    lastName: "Ausloos"
-  },
-
-  {
-    firstName: "Evelyn",
-    lastName: "Kizewski"
-  },
-
-  {
-    firstName: "Matt",
-    lastName: "Carlson"
-  }
-];
-*/
-
 
 /**
  * Description: Redirects users to the 'index' page.
@@ -130,14 +105,6 @@ app.get('/', function(req, res) {
     }
   });
 });
-
-/*
- app.get("/", function(request, response) {  // Create a get request and return a response
-  response.render("index", { // Output message to the index.ejs document
-    title: "EMS Home Page",
-    employees: Employees
-  });
-}); */
 
 /**
  * Description: Redirects users to the 'new employee' page.
@@ -217,27 +184,30 @@ employee.save(function(err) {
  * Response: view.ejs, Employee[] | index.ejs
  * URL: localhost:8080/view/:queryName
  */
-/*app.get('/view/:queryName', function(req, res) {
+app.get('/view/:queryName', function(req, res) {
   const queryName = req.params['queryName'];
 
-  Employee.find({'name': queryName}, function(err, employees) {
+  Employee.find({'firstName': queryName}, function(err, employees) {
     if (err) {
       console.log(err);
       throw err;
     } else {
+      console.log(queryName)
       console.log(employees);
-
+      console.log(employees.length + "  We hit the if statement.");
       if (employees.length > 0) {
         res.render('view', {
           title: 'EMS | View',
-          employee: employees
+          employees: employees
         })
       } else {
+        console.log("error in the query")
+        console.log(employees.length);
         res.redirect('/');
       }
     }
   })
-}); */
+});
 
 /**
  * Creates a new server to listen on the 8080 port.
