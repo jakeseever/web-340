@@ -7,11 +7,6 @@
 ;===========================================
 */
 
-var header = require("../seever-header.js"); // Require the header.js file
-// pass in the firstName, lastName, and assignment parameters required for the header and output.
-console.log(header.display("Jake", "Seever", "Assignment 5.4 - EMS Project"));
-console.log('\n');
-
 // Start
 
 // Require Statements
@@ -26,14 +21,26 @@ var csrf = require('csurf');
 var mongoose = require('mongoose');
 var Employee = require('./models/employee');
 
+
+/**
+ * Sets up CSRF protection.
+ */
+var csrfProtection = csrf({ cookie: true });
+
+
 /**
  * Establishes a database connection to MongoDB (mLab).
  * Make sure you are using the credentials of the "user" you created and not your personal login information.
  */
 const mongoDB = 'mongodb+srv://testUser:Brewers19@ems-ap5nb.mongodb.net/test?retryWrites=true';
 mongoose.connect(mongoDB, {
-  useMongoClient:true
+
+ // useMongoClient:true
+ useNewUrlParser:true
 });
+
+ // Set the application to a variable, use express
+ var app = express();
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
@@ -42,13 +49,6 @@ db.once('open', function() {
   console.log('Application connected to MongoDB instance');
 });
 
-/**
- * Sets up CSRF protection.
- */
-var csrfProtection = csrf({ cookie: true });
-
- // Set the application to a variable, use express
-var app = express();
 
 // Use the morgan logger
 app.use(logger("short"));
@@ -192,7 +192,6 @@ app.get('/view/:queryName', function(req, res) {
       console.log(err);
       throw err;
     } else {
-      console.log(queryName)
       console.log(employees);
       console.log(employees.length + "  We hit the if statement.");
       if (employees.length > 0) {
@@ -201,8 +200,7 @@ app.get('/view/:queryName', function(req, res) {
           employees: employees
         })
       } else {
-        console.log("error in the query")
-        console.log(employees.length);
+        console.log("Error in the query.")
         res.redirect('/');
       }
     }
